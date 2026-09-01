@@ -4,9 +4,9 @@
 
 Chrono turns your project into a timeline of immutable events. Boards, diffs, scenarios, forecasts, and AI explanations are all projections of the same event stream — so every answer about your project comes with evidence, not memory.
 
-> **Pre-launch.** Links marked `[PLACEHOLDER]` go live at deployment. Visuals below are illustrative pre-launch renders.
+> **Pre-launch.** Links below go live at deployment. Visuals are illustrative pre-launch renders.
 
-**[Launch the app →](https://[PLACEHOLDER-HOST])** · **[Try the live demo →](https://[PLACEHOLDER-HOST]/demo)** · **[Status →](https://[PLACEHOLDER-STATUS-HOST])**
+**[Try the live demo →](https://[PLACEHOLDER-HOST]/demo)** · **[Launch the app →](https://[PLACEHOLDER-HOST])**
 
 ![Chrono workspace — Temporal Rail over a live board](assets/hero.png)
 
@@ -28,7 +28,7 @@ Scrub the Temporal Rail to any moment and see the board exactly as it was. Compa
 
 ### Forecast — dates you can defend
 
-A deterministic projection engine: topological order, capacity-aware working days, critical path, risk rating. Same input, same output — reproducible in front of your board, auditable by your auditors.
+A deterministic projection engine: topological order, capacity-aware working days, critical path, risk rating. Same input, same output — reproducible and auditable.
 
 ![Deterministic forecast with critical path and risk rating](assets/forecast.png)
 
@@ -40,7 +40,7 @@ Branch off main, test staffing or scope changes in isolation, compare the branch
 
 Ask *"why did the launch move?"* and get an answer grounded in the event trail, every claim linked to the events that prove it. Works with any OpenAI-compatible provider; degrades to deterministic analysis without a key.
 
-### Built for real teams
+### Built for everyday teamwork
 
 - Four views: Board, Table, Calendar, Dependency canvas
 - Realtime collaboration with presence (SSE)
@@ -49,38 +49,21 @@ Ask *"why did the launch move?"* and get an answer grounded in the event trail, 
 
 ## Who it's for
 
-| Role | Gets |
-| --- | --- |
-| Product Manager | "what changed and why" with an auditable trail |
-| Engineering Manager | capacity-aware forecasts instead of gut dates |
-| Product Lead | plan changes held to evidence, compared across time |
-| Tech Lead | dependency-aware scenarios for staffing and scope |
-| Founder | a defensible delivery picture without status meetings |
+Anyone who plans or delivers software: product managers, engineering managers, product leads, tech leads, founders — or a whole team trying out a time-aware way of working together.
 
-## Pricing
+## Try it & give feedback
 
-Subscriptions are metered per **workspace**, per **seat**, and by **usage** (event volume and AI explanations). Illustrative tiers — final pricing at launch:
+This is a personal project I built because I wanted project history to be a first-class feature, not a changelog footnote. The best way to help is to try it and tell me what feels right or wrong:
 
-| | Starter | Growth | Scale |
-| --- | --- | --- | --- |
-| Workspaces | 1 | 5 | Unlimited |
-| Seats | 3 included | 10 included | Custom |
-| Event history | 90 days | Unlimited | Unlimited |
-| Scenarios & Forecast | ✔ | ✔ | ✔ |
-| AI explain | — | ✔ | ✔ |
-| Self-host option | — | — | ✔ |
+- **Try the live demo** — [https://[PLACEHOLDER-HOST]/demo](https://[PLACEHOLDER-HOST]/demo), no setup needed
+- **Open an issue** on this repo — bugs, ideas, and "this confused me" reports are all welcome
+- **Email me** — [PLACEHOLDER-EMAIL]
 
-## Security & trust
+## Built with
 
-- Session tokens stored SHA-256-hashed; `HttpOnly` + `SameSite=Lax` cookies, `Secure` in production
-- Security headers on every response; same-origin enforcement on mutating APIs
-- Per-IP and per-email auth rate limits; per-user API rate limits
-- All input validated at the boundary; uniform error shapes; no existence leakage
-- Event log is append-only and immutable — your audit trail is the product, not an add-on
+Next.js · React · TypeScript · PostgreSQL · Prisma · event sourcing · deterministic forecast engine · Vitest
 
-## Get access
-
-For early access, trials, source access, or security reports: **[PLACEHOLDER-EMAIL]**
+The core is an append-only event log: every change is an immutable event, and everything you see is a projection of that log — which is also why replay, compare, and scenarios are possible at all. Sessions are SHA-256-hashed server-side, all input is validated, and mutating APIs are same-origin enforced.
 
 ---
 
