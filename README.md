@@ -6,7 +6,7 @@ Chrono turns your project into a timeline of immutable events. Boards, diffs, sc
 
 > **Pre-launch.** Links below go live at deployment. Visuals are illustrative pre-launch renders.
 
-**[Try the live demo →](https://[PLACEHOLDER-HOST]/demo)** · **[Launch the app →](https://[PLACEHOLDER-HOST])**
+**[Launch Chrono →](https://[PLACEHOLDER-HOST])**
 
 ![Chrono workspace — Temporal Rail over a live board](assets/hero.png)
 
@@ -55,7 +55,7 @@ Anyone who plans or delivers software: product managers, engineering managers, p
 
 This is a personal project I built because I wanted project history to be a first-class feature, not a changelog footnote. The best way to help is to try it and tell me what feels right or wrong:
 
-- **Try the live demo** — [https://[PLACEHOLDER-HOST]/demo](https://[PLACEHOLDER-HOST]/demo), no setup needed
+- **Try it** — [https://[PLACEHOLDER-HOST]](https://[PLACEHOLDER-HOST]), sign up and it runs out of the box
 - **Open an issue** on this repo — bugs, ideas, and "this confused me" reports are all welcome
 - **Email me** — [PLACEHOLDER-EMAIL]
 
