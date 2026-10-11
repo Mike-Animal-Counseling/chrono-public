@@ -1,5 +1,7 @@
 # Chrono — Temporal Decision Workspace
 
+本仓库为 Chrono 的公开介绍与展示页，应用源码在私有仓库维护。
+
 **Replay the past. Understand the present. Rehearse and forecast the future.**
 
 Chrono turns your project into a timeline of immutable events. Boards, diffs, scenarios, forecasts, and AI explanations are all projections of the same event stream — so every answer about your project comes with evidence, not memory.
