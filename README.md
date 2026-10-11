@@ -68,3 +68,7 @@ The core is an append-only event log: every change is an immutable event, and ev
 ---
 
 Chrono — work isn't only about now.
+
+## Security and deployment
+
+Read the [security policy](SECURITY.md) and [production requirements](docs/PRODUCTION_SECURITY.md) before deployment.
