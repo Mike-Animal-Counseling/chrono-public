@@ -1,14 +1,14 @@
 # Chrono — Temporal Decision Workspace
 
-本仓库为 Chrono 的公开介绍与展示页，应用源码在私有仓库维护。
+This repository presents Chrono's product and architecture. Application source is maintained privately.
 
 **Replay the past. Understand the present. Rehearse and forecast the future.**
 
 Chrono turns your project into a timeline of immutable events. Boards, diffs, scenarios, forecasts, and AI explanations are all projections of the same event stream — so every answer about your project comes with evidence, not memory.
 
-> **Pre-launch.** Links below go live at deployment. Visuals are illustrative pre-launch renders.
+> **Pre-launch.** A public deployment is not available yet. The images below are illustrative product previews.
 
-**[Launch Chrono →](https://[PLACEHOLDER-HOST])**
+[Product Preview](#product-preview) · [Architecture](#built-with) · [Feedback](https://github.com/Mike-Animal-Counseling/chrono-public/issues)
 
 ![Chrono workspace — Temporal Rail over a live board](assets/hero.png)
 
@@ -20,7 +20,7 @@ Project tools show you *now*. But the decisions you actually make are about time
 - *"What if we add two engineers?"* — Chrono rehearses it in a scenario branch before you commit.
 - *"Can we still make the date?"* — Chrono projects it deterministically, with the critical path and the risk in days.
 
-## See it working
+## Product Preview
 
 ### Replay & Compare — hold plans to evidence
 
@@ -53,13 +53,9 @@ Ask *"why did the launch move?"* and get an answer grounded in the event trail, 
 
 Anyone who plans or delivers software: product managers, engineering managers, product leads, tech leads, founders — or a whole team trying out a time-aware way of working together.
 
-## Try it & give feedback
+## Feedback
 
-This is a personal project I built because I wanted project history to be a first-class feature, not a changelog footnote. The best way to help is to try it and tell me what feels right or wrong:
-
-- **Try it** — [https://[PLACEHOLDER-HOST]](https://[PLACEHOLDER-HOST]), sign up and it runs out of the box
-- **Open an issue** on this repo — bugs, ideas, and "this confused me" reports are all welcome
-- **Email me** — [PLACEHOLDER-EMAIL]
+I built Chrono to make project history a first-class feature. While the public deployment is being prepared, explore the product previews and [open an issue](https://github.com/Mike-Animal-Counseling/chrono-public/issues) with questions, ideas, or feedback. A working launch link will be added here when the service is available.
 
 ## Built with
 
