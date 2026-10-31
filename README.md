@@ -10,6 +10,8 @@ Chrono turns your project into a timeline of immutable events. Boards, diffs, sc
 
 [Product Preview](#product-preview) · [Architecture](#built-with) · [Feedback](https://github.com/Mike-Animal-Counseling/chrono-public/issues)
 
+See the [current engineering status and remaining release gates](docs/PROJECT_STATUS.md).
+
 ![Chrono workspace — Temporal Rail over a live board](assets/hero.png)
 
 ## Why time is the missing dimension
@@ -45,8 +47,8 @@ Ask *"why did the launch move?"* and get an answer grounded in the event trail, 
 ### Built for everyday teamwork
 
 - Four views: Board, Table, Calendar, Dependency canvas
-- Realtime collaboration with presence (SSE)
-- Offline mode: edits queue locally and sync idempotently when you're back
+- Realtime collaboration with presence (SSE); shared-state behavior is tested across two application processes in the private hardening work
+- Offline edits queue by account and retry idempotently; rejected writes are reported instead of being presented as saved
 - Trash with restore, per-task activity history derived from the event log
 
 ## Who it's for
