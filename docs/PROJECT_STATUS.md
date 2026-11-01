@@ -1,6 +1,6 @@
 # Chrono project status
 
-Updated 2026-10-31. **Pre-launch; no public SaaS deployment is available.**
+Updated 2026-11-01. **Pre-launch; no public SaaS deployment is available.**
 This repository contains product information and concept visuals, not deployable
 application source. The product implementation is maintained privately.
 
@@ -11,11 +11,20 @@ It supports evaluating one instance and running identical application replicas
 with shared sessions, throttles, presence and committed-state synchronization.
 The event log remains the basis for replay, comparison, scenarios and forecasts.
 
+The private hosted-service work now includes verified-email signup and recovery,
+team invitations and role management, durable transactional mail, owner billing
+controls, workspace exports/deletion and operator configuration checks. Stripe
+Checkout/Portal, subscription reconciliation and server-side plan limits are
+implemented. Billing pauses preserve readable data and export access. Rejected
+offline edits remain available for explicit recovery.
+
 Local engineering evidence from this work includes:
 
-- 146 unit/database regression tests, plus 2 separately run dataset tests.
-- A two-process production-package smoke with 51 HTTP/SSE checks, including client
-  asset delivery, shared sessions/updates and permission/session revocation.
+- 203 unit/database regression tests; 2 optional dataset tests were skipped in
+  that run and had passed separately during foundation work.
+- A final standalone-package smoke with 93 two-process HTTP/SSE/SMTP/payment-
+  contract checks, including shared sessions/updates, invitations, subscription
+  state changes and permission/session revocation.
 - A dataset exercise with 1,200 tasks, 600 updates and 400 dependency edges.
 - Type checks, an optimized production build and a dependency audit with no known
   unresolved advisories at the recorded check.
@@ -27,11 +36,12 @@ separate release gates.
 
 ## Before opening the service
 
-Verified-email onboarding, password recovery and team invitations must be
-completed and exercised with real delivery. Paid plans require implemented
-billing, entitlement and lifecycle behavior; they are not currently shipped.
-Production also requires chosen hosting, HTTPS, database recovery, alerts,
-staging/browser/load checks and clear user-data/support policies.
+Real transactional-email delivery and Stripe test-mode checkout/lifecycle
+acceptance remain required. The payment-contract fixture does not charge cards
+or validate a real merchant account. No commercial price is announced here.
+Operators must configure domain/HTTPS, mail, merchant account/price, customer
+policies, hosting, database recovery and alerts, then complete Linux image,
+staging and capacity acceptance before opening registration or charging users.
 
 A service URL will be published only after deployment and acceptance. Concept
 screenshots are illustrative; they are not screenshots of a currently operating
