@@ -1,6 +1,6 @@
 # Chrono project status
 
-Updated 2026-11-01. **Pre-launch; no public SaaS deployment is available.**
+Updated 2026-11-02. **Pre-launch; no public SaaS deployment is available.**
 This repository contains product information and concept visuals, not deployable
 application source. The product implementation is maintained privately.
 
@@ -18,21 +18,44 @@ Checkout/Portal, subscription reconciliation and server-side plan limits are
 implemented. Billing pauses preserve readable data and export access. Rejected
 offline edits remain available for explicit recovery.
 
+The intended delivery is hosted: the operator configures infrastructure, email
+and payments once. Customers use signup/invitations and the product interface;
+they do not supply deployment secrets or manage application replicas.
+
 Local engineering evidence from this work includes:
 
-- 203 unit/database regression tests; 2 optional dataset tests were skipped in
-  that run and had passed separately during foundation work.
-- A final standalone-package smoke with 93 two-process HTTP/SSE/SMTP/payment-
+- 239 unit/database regression tests passed with the large-data cases enabled
+  and no skipped tests in the latest local run.
+- A standalone-package smoke with 112 two-process HTTP/SSE/SMTP/payment-
   contract checks, including shared sessions/updates, invitations, subscription
   state changes and permission/session revocation.
 - A dataset exercise with 1,200 tasks, 600 updates and 400 dependency edges.
+- A five-minute full-view workload profile exercises 30 simultaneous users,
+  1,200 tasks and per-user realtime streams, with explicit latency, memory,
+  event-loop and convergence gates. The current profile includes the sidebar's
+  exact date window and separate concurrent full-detail reads.
+- Release automation includes independent event/projection checks, database
+  dump/restore comparisons, non-root Linux runtime/managed/migration images,
+  and strict HIGH/CRITICAL vulnerability gates with retained reports. It also
+  supports weekly and manual validation.
 - Type checks, an optimized production build and a dependency audit with no known
   unresolved advisories at the recorded check.
 
-These results describe local validation of the hardening work. They do not
-certify a deployed service's security, uptime or user capacity. Linux container,
-cloud deployment, actual email delivery, monitoring and restore validation are
-separate release gates.
+The latest private release candidate passed its complete Linux engineering
+workflow, including the selected sustained workload, independent restore,
+image lifecycle checks and all three strict image scans. These are
+repository/candidate checks with synthetic data, not a deployed
+service's security, uptime or capacity certification. A release candidate must
+pass the complete Linux workflow before deployment; chosen-host staging,
+actual email/payment delivery, hosted recovery and alerts remain launch gates.
+
+Recent hardening also preserves dirty drafts through collaboration conflicts,
+bounds table rendering while retaining global search, makes historical dates
+and evidence scope explicit, and keeps permission/session decisions in shared
+storage. Rehearsal/forecast assumptions and read-only time contexts are visible
+in the product.
+The change-history dialog pages through the chosen event interval and supports
+keyboard focus, Escape close, range validation and retry.
 
 ## Before opening the service
 
