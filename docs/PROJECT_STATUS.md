@@ -26,17 +26,20 @@ connector. No dedicated third-party agent platform is claimed as integrated.
 Customers can use a personal provider key or an operator-configured managed
 allowance. Provider/model availability and the managed allowance require service
 configuration; no commercial AI price or bundled real credential is announced.
+Managed usage has workspace and global ceilings across replicas; in Stripe mode
+it requires a currently verified paid workspace plan.
 The managed allowance is bounded execution attempts, separate from existing
 subscription-seat billing. Workers have reported progress, results, cancellation,
 retry and execution history shared across application replicas.
 
-This is a new feature candidate. Its local implementation checks and exact-head
-Linux validation are recorded privately; the accepted pre-worker baseline below
-does not substitute for this candidate's complete release workflow. Real provider
-quality, spending, tool integration and chosen-host agent capacity still require
-acceptance before service launch.
-Local worker-candidate checks passed 261 unit/database/connector regressions and
-137 standalone two-process lifecycle/fault/worker assertions. Model output was
+The worker candidate passed its complete private Linux engineering workflow,
+including the sustained workload, independent restore, image lifecycle checks
+and all three strict image scans. Its local and exact-head Linux evidence is
+recorded privately, separately from the accepted pre-worker baseline below.
+Real provider quality, spending, tool integration and chosen-host agent capacity
+still require acceptance before service launch.
+Local worker-candidate checks passed 263 unit/database/connector regressions and
+141 standalone two-process lifecycle/fault/worker assertions. Model output was
 synthetic; this validates execution contracts rather than real AI quality.
 
 ## Current engineering work
