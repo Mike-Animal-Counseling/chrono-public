@@ -1,8 +1,43 @@
 # Chrono project status
 
-Updated 2026-11-02. **Pre-launch; no public SaaS deployment is available.**
+Updated 2026-11-03. **Pre-launch; no public SaaS deployment is available.**
 This repository contains product information and concept visuals, not deployable
 application source. The product implementation is maintained privately.
+
+## People and AI workers
+
+The new private implementation adds project-scoped AI workers alongside human
+collaborators while preserving the temporal workspace. Tickets can be assigned
+manually, or an optional scheduler can match available agent capacity and skills
+to unowned work. Unfinished prerequisites block execution. Successful work
+completes automatically by default; teams can opt into human review.
+
+Twelve templates cover general assistance, product management, software
+engineering, QA, writing, marketing, research, data analysis, customer support,
+sales, operations and product design. Each defines specialty instructions,
+suggested skills and deliverables. A profession name does not grant tools.
+
+Built-in workers produce text from ticket context: drafts, analyses, plans,
+code snippets and reviews of supplied material. They do not browse the web,
+access repositories, run tests, send messages or modify external systems.
+Owned/custom agents with those capabilities can use the separate external
+connector. No dedicated third-party agent platform is claimed as integrated.
+
+Customers can use a personal provider key or an operator-configured managed
+allowance. Provider/model availability and the managed allowance require service
+configuration; no commercial AI price or bundled real credential is announced.
+The managed allowance is bounded execution attempts, separate from existing
+subscription-seat billing. Workers have reported progress, results, cancellation,
+retry and execution history shared across application replicas.
+
+This is a new feature candidate. Its local implementation checks and exact-head
+Linux validation are recorded privately; the accepted pre-worker baseline below
+does not substitute for this candidate's complete release workflow. Real provider
+quality, spending, tool integration and chosen-host agent capacity still require
+acceptance before service launch.
+Local worker-candidate checks passed 261 unit/database/connector regressions and
+137 standalone two-process lifecycle/fault/worker assertions. Model output was
+synthetic; this validates execution contracts rather than real AI quality.
 
 ## Current engineering work
 
@@ -22,10 +57,10 @@ The intended delivery is hosted: the operator configures infrastructure, email
 and payments once. Customers use signup/invitations and the product interface;
 they do not supply deployment secrets or manage application replicas.
 
-Local engineering evidence from this work includes:
+Engineering evidence for the accepted pre-worker baseline includes:
 
 - 239 unit/database regression tests passed with the large-data cases enabled
-  and no skipped tests in the latest local run.
+  and no skipped tests in that baseline's local run.
 - A standalone-package smoke with 112 two-process HTTP/SSE/SMTP/payment-
   contract checks, including shared sessions/updates, invitations, subscription
   state changes and permission/session revocation.
@@ -41,7 +76,7 @@ Local engineering evidence from this work includes:
 - Type checks, an optimized production build and a dependency audit with no known
   unresolved advisories at the recorded check.
 
-The latest private release candidate passed its complete Linux engineering
+The accepted pre-worker release candidate passed its complete Linux engineering
 workflow, including the selected sustained workload, independent restore,
 image lifecycle checks and all three strict image scans. These are
 repository/candidate checks with synthetic data, not a deployed
