@@ -10,6 +10,11 @@ Choose a profession, name the worker, authorize relevant accounts and assign a
 ticket. Team preferences and advanced matching/capacity settings are optional.
 Customers do not need to assemble a system prompt or maintain skill documents.
 
+The chooser focuses on each role's deliverable. Tool accounts are managed once
+in Connections; shared connector names are not repeated on every role card.
+Selected-role details show its connected tools, with optional web research
+available on demand.
+
 Twelve role packages contain 41 Markdown skill modules. Each includes a persona,
 working playbook, specialist methods, tool-use guidance, completion checks and
 expected deliverables. Engineering has eight modules spanning implementation,
