@@ -46,7 +46,7 @@ Ask *"why did the launch move?"* and get an answer grounded in the event trail, 
 
 ### Built for everyday teamwork
 
-- Four views: Board, Table, Calendar, Dependency canvas
+- Task views: Board, Table, Calendar, Dependency canvas
 - Realtime collaboration with presence (SSE); shared-state behavior is tested across two application processes in the private hardening work
 - Offline edits queue by account and retry idempotently; rejected edits remain available for explicit recovery
 - Trash with restore, per-task activity history derived from the event log
@@ -55,6 +55,15 @@ Private hosted-service work also implements verified-email onboarding/recovery,
 team invitations, workspace billing/data controls and operator setup. Stripe
 integration has passed local contract checks; real email, payment and deployment
 acceptance remain launch gates. See the [engineering status](docs/PROJECT_STATUS.md).
+
+### People and AI workers
+
+Assign tickets to human teammates and AI workers. Twelve ready-made professions
+have distinct Markdown skill collections and relevant tool selections; modules
+load on demand for the task. Manual assignment stays the default, with optional
+capacity-aware scheduling and human review. The first connector capability is
+read/search/analyze; real provider accounts still need launch acceptance.
+See [roles, skills and capability boundaries](docs/AI_WORKERS.md).
 
 ## Who it's for
 

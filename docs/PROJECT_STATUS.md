@@ -1,6 +1,6 @@
 # Chrono project status
 
-Updated 2026-11-03. **Pre-launch; no public SaaS deployment is available.**
+Updated 2026-11-04. **Pre-launch; no public SaaS deployment is available.**
 This repository contains product information and concept visuals, not deployable
 application source. The product implementation is maintained privately.
 
@@ -12,16 +12,22 @@ manually, or an optional scheduler can match available agent capacity and skills
 to unowned work. Unfinished prerequisites block execution. Successful work
 completes automatically by default; teams can opt into human review.
 
-Twelve templates cover general assistance, product management, software
+Twelve role packages cover general assistance, product management, software
 engineering, QA, writing, marketing, research, data analysis, customer support,
-sales, operations and product design. Each defines specialty instructions,
-suggested skills and deliverables. A profession name does not grant tools.
+sales, operations and product design. Their 41 Markdown skill modules include
+specialist methods, workflows, tool recipes and completion checks. A run starts
+with one matching module and loads further modules only when needed. Worker
+setup now separates ready-made roles, optional preferences, activity,
+connections and scheduling settings.
 
-Built-in workers produce text from ticket context: drafts, analyses, plans,
-code snippets and reviews of supplied material. They do not browse the web,
-access repositories, run tests, send messages or modify external systems.
-Owned/custom agents with those capabilities can use the separate external
-connector. No dedicated third-party agent platform is claimed as integrated.
+Curated connection adapters use Composio and optional Tavily search. Different
+roles have different tool selections, with role-specific action scopes even
+when they share a toolkit. Service configuration and administrator account
+authorization are required; real-account compatibility and OAuth acceptance are
+still launch gates. The first built-in tool capability is read/search/analyze.
+It cannot send messages, publish, modify repository code, create PRs, execute
+tests or edit a Figma canvas. An owned external agent may provide additional
+capabilities under its own explicit permissions. See [role packages and tools](AI_WORKERS.md).
 
 Customers can use a personal provider key or an operator-configured managed
 allowance. Provider/model availability and the managed allowance require service
@@ -32,15 +38,18 @@ The managed allowance is bounded execution attempts, separate from existing
 subscription-seat billing. Workers have reported progress, results, cancellation,
 retry and execution history shared across application replicas.
 
-The worker candidate passed its complete private Linux engineering workflow,
-including the sustained workload, independent restore, image lifecycle checks
-and all three strict image scans. Its local and exact-head Linux evidence is
-recorded privately, separately from the accepted pre-worker baseline below.
-Real provider quality, spending, tool integration and chosen-host agent capacity
-still require acceptance before service launch.
-Local worker-candidate checks passed 263 unit/database/connector regressions and
-141 standalone two-process lifecycle/fault/worker assertions. Model output was
-synthetic; this validates execution contracts rather than real AI quality.
+The role-skill candidate passed the complete private Linux engineering workflow:
+sustained workload v4, independent restore, Linux image lifecycle checks and all
+three strict HIGH/CRITICAL image vulnerability gates. The five-minute synthetic
+workload used 30 users and 1,200 tasks, with zero request errors and read/write
+p95 of 156/169ms. Restore comparison covered three projects and 30 tables.
+These are candidate checks, not a hosted-service capacity or uptime certificate.
+Local checks passed 283 unit/database/protocol regressions and 148 packaged
+two-process lifecycle/auth/fault/worker assertions. All 41 skill modules ship in
+the standalone package. Browser checks covered saved configuration, selective
+guide loading, filters, keyboard focus and result-to-ticket navigation.
+Model and connector responses were synthetic; these validate contracts rather
+than real AI quality, account authorization or service capacity.
 
 ## Current engineering work
 
