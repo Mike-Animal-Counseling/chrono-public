@@ -1,0 +1,465 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String            @id @default(cuid())
+  email        String            @unique
+  name         String
+  passwordHash String
+  emailVerifiedAt DateTime?
+  createdAt    DateTime          @default(now())
+  sessions     Session[]
+  memberships  WorkspaceMember[]
+  streamLeases StreamLease[]
+  accountActions AccountAction[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  streamLeases StreamLease[]
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Workspace {
+  connectors WorkspaceConnector[]
+  connectorUsage ConnectorUsage[]
+  workerUsage WorkerUsage[]
+  id        String            @id @default(cuid())
+  name      String
+  createdAt DateTime          @default(now())
+  members   WorkspaceMember[]
+  projects  Project[]
+  accountActions AccountAction[]
+  auditEvents WorkspaceAuditEvent[]
+  stripeCustomerId String? @unique
+  stripeSubscriptionId String? @unique
+  billingEmail String?
+  billingStatus String @default("none")
+  billingPriceId String?
+  billingPeriodEnd DateTime?
+  billingVerifiedUntil DateTime?
+  billingNextReconcileAt DateTime?
+  cancelAtPeriodEnd Boolean @default(false)
+  hasSubscribed Boolean @default(false)
+  billingLeaseId String?
+  billingLeaseUntil DateTime?
+  checkoutOpId String?
+  checkoutOpCreatedAt DateTime?
+  checkoutPriceId String?
+  checkoutLeaseUntil DateTime?
+  checkoutSessionId String?
+  checkoutUrl String?
+  checkoutExpiresAt DateTime?
+  @@index([billingNextReconcileAt])
+}
+
+model BillingJob {
+  id String @id
+  eventType String
+  customerId String
+  expiredCheckoutId String?
+  checkoutOpId String?
+  status String @default("PENDING")
+  attempts Int @default(0)
+  availableAt DateTime @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC'::text)"))
+  leaseId String?
+  leaseUntil DateTime?
+  errorCode String?
+  createdAt DateTime @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC'::text)"))
+  @@index([status, availableAt])
+  @@index([customerId])
+}
+
+// Tokens are derived with a deployment secret; only their digest is stored.
+model AccountAction {
+  id String @id
+  tokenHash String @unique
+  kind String
+  email String
+  name String?
+  userId String?
+  workspaceId String?
+  role String?
+  requestedById String?
+  expiresAt DateTime
+  consumedAt DateTime?
+  revokedAt DateTime?
+  createdAt DateTime @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC'::text)"))
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  delivery MailDelivery?
+  @@index([email, kind])
+  @@index([workspaceId, email])
+  @@index([expiresAt])
+}
+
+model MailDelivery {
+  id String @id @default(cuid())
+  actionId String @unique
+  status String @default("PENDING")
+  attempts Int @default(0)
+  availableAt DateTime @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC'::text)"))
+  leaseUntil DateTime?
+  leaseId String?
+  lastErrorCode String?
+  sentAt DateTime?
+  action AccountAction @relation(fields: [actionId], references: [id], onDelete: Cascade)
+  @@index([status, availableAt])
+}
+
+model WorkspaceAuditEvent {
+  id String @id @default(cuid())
+  workspaceId String
+  actorUserId String
+  action String
+  subject String
+  createdAt DateTime @default(dbgenerated("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC'::text)"))
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@index([workspaceId, createdAt])
+}
+
+model WorkspaceMember {
+  id          String    @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        String
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+  @@index([userId])
+}
+
+model Project {
+  id           String                 @id @default(cuid())
+  workspaceId  String
+  name         String
+  launchDate   String?
+  currentSeq   BigInt                 @default(0)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  workspace    Workspace              @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  events       ProjectEvent[]
+  snapshots    ProjectSnapshot[]
+  tasks        TaskProjection[]
+  dependencies DependencyProjection[]
+  scenarios    Scenario[]
+  forecastRuns ForecastRun[]
+  agentWorkers AgentWorker[]
+  workerRuns WorkerRun[]
+  automation ProjectAutomation?
+  commandReceipts CommandReceipt[]
+  streamLeases StreamLease[]
+
+  @@index([workspaceId])
+}
+
+model ProjectEvent {
+  id               String   @id @default(cuid())
+  projectId        String
+  seq              BigInt
+  type             String
+  schemaVersion    Int      @default(1)
+  payload          Json
+  actorUserId      String
+  clientMutationId String
+  correlationId    String?
+  causationId      String?
+  createdAt        DateTime
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, seq])
+  @@index([projectId, clientMutationId])
+}
+
+model ProjectSnapshot {
+  id            String   @id @default(cuid())
+  projectId     String
+  seq           BigInt
+  schemaVersion Int      @default(1)
+  stateJson     Json
+  createdAt     DateTime @default(now())
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, seq])
+}
+
+model TaskProjection {
+  dispatchSeq BigInt @default(0)
+  agentWorkerId String?
+  requiredSkills String[] @default([])
+  id                       String                    @id
+  projectId                String
+  title                    String
+  description              String                    @default("")
+  descriptionVersion       Int                       @default(1)
+  status                   String
+  priority                 String
+  startDate                String?
+  dueDate                  String?
+  estimateMinutes          Int?
+  remainingEstimateMinutes Int?
+  order                    Int                       @default(0)
+  createdAt                DateTime
+  updatedAt                DateTime
+  deletedAt                DateTime?
+  lastEventSeq             BigInt
+  project                  Project                   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assignees                TaskAssigneeProjection[]
+  workerRuns               WorkerRun[]
+
+  @@index([projectId, status])
+}
+
+// Workers are project-scoped service identities, never user accounts or seats.
+model AgentWorker {
+  instructions String @default("")
+  role String @default("general")
+  kind String @default("external")
+  keyMode String @default("managed")
+  encryptedKey String?
+  id String @id
+  projectId String
+  name String
+  skills String[] @default([])
+  capacity Int @default(1)
+  enabled Boolean @default(true)
+  tokenHash String @unique
+  lastSeenAt DateTime?
+  createdAt DateTime @default(now())
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  runs WorkerRun[]
+  @@index([projectId])
+}
+
+model ProjectAutomation {
+  projectId String @id
+  enabled Boolean @default(false)
+  triggerStatus String @default("todo")
+  requireReview Boolean @default(false)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model WorkerRun {
+  toolCalls WorkerToolCall[]
+  id String @id
+  projectId String
+  taskId String
+  workerId String
+  status String
+  // The immutable ticket supplied to the external service, not a live object.
+  input Json
+  leaseHash String?
+  leaseUntil DateTime?
+  deadlineAt DateTime?
+  claimKey String? @unique
+  requireReview Boolean @default(false)
+  progress Int @default(0)
+  observedSeq BigInt
+  message String @default("")
+  result Json?
+  resultDigest String?
+  errorCode String?
+  createdAt DateTime @default(now())
+  startedAt DateTime?
+  finishedAt DateTime?
+  reviewedBy String?
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  task TaskProjection @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  worker AgentWorker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  @@index([projectId, status])
+  @@index([workerId, status])
+  @@index([taskId, createdAt])
+}
+
+model WorkspaceConnector {
+  id String @id
+  workspaceId String
+  toolkit String
+  accountId String?
+  providerUserId String
+  authorizerId String
+  authConfigId String
+  status String @default("DISCONNECTED")
+  revision Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@unique([workspaceId, toolkit])
+  @@index([accountId])
+}
+
+model ConnectorLink {
+  id String @id
+  workspaceId String
+  projectId String
+  actorId String
+  toolkit String
+  providerUserId String
+  accountId String?
+  stateHash String
+  revision Int
+  expiresAt DateTime
+  usedAt DateTime?
+  @@index([expiresAt])
+  @@index([workspaceId, usedAt, expiresAt])
+}
+
+model ConnectorUsage {
+  id String @id
+  workspaceId String?
+  month String
+  attempts Int @default(0)
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@index([workspaceId, month])
+}
+
+model WorkerToolCall {
+  id String @id
+  runId String
+  callId String
+  toolkit String
+  toolSlug String
+  argsDigest String
+  status String
+  result Json?
+  createdAt DateTime @default(now())
+  finishedAt DateTime?
+  run WorkerRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  @@unique([runId, callId])
+}
+
+model WorkerUsage {
+  id String @id
+  workspaceId String
+  month String
+  attempts Int @default(0)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@unique([workspaceId, month])
+}
+
+model WorkerServiceUsage {
+  month String @id
+  attempts Int @default(0)
+}
+
+model TaskAssigneeProjection {
+  id     String         @id @default(cuid())
+  taskId String
+  userId String
+  task   TaskProjection @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, userId])
+}
+
+model DependencyProjection {
+  id         String  @id
+  projectId  String
+  fromTaskId String
+  toTaskId   String
+  type       String  @default("BLOCKS")
+  project    Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([fromTaskId, toTaskId])
+  @@index([projectId])
+}
+
+model Scenario {
+  id        String         @id @default(cuid())
+  projectId String
+  name      String
+  baseSeq   BigInt
+  status    String         @default("ACTIVE")
+  createdBy String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  project   Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  events    ScenarioEvent[]
+  commandReceipts CommandReceipt[]
+
+  @@index([projectId])
+}
+
+model ScenarioEvent {
+  id               String   @id @default(cuid())
+  scenarioId       String
+  seq              BigInt
+  type             String
+  schemaVersion    Int      @default(1)
+  payload          Json
+  actorUserId      String
+  clientMutationId String
+  createdAt        DateTime
+  scenario         Scenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@unique([scenarioId, seq])
+  @@index([scenarioId, clientMutationId])
+}
+
+model ForecastRun {
+  id            String   @id @default(cuid())
+  projectId     String
+  scenarioId    String?
+  engineVersion String
+  baseSeq       BigInt
+  inputsHash    String
+  resultJson    Json
+  createdAt     DateTime @default(now())
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model CommandReceipt {
+  id               String   @id @default(cuid())
+  projectId        String
+  scenarioId       String?
+  streamKey        String
+  clientMutationId String
+  actorUserId      String
+  digest           String
+  createdAt        DateTime @default(now())
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  scenario         Scenario? @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@unique([streamKey, clientMutationId])
+  @@index([projectId])
+  @@index([scenarioId])
+}
+
+model RateLimitBucket {
+  key     String   @id
+  hits    Int
+  resetAt DateTime
+
+  @@index([resetAt])
+}
+
+model StreamLease {
+  id        String @id
+  userId    String
+  sessionId String
+  projectId String
+  expiresAt DateTime
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@index([projectId, expiresAt])
+  @@index([sessionId])
+}
