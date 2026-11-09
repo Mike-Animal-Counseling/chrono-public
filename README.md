@@ -90,6 +90,13 @@ The core is an append-only event log: every change is an immutable event, and ev
 
 Chrono — work isn't only about now.
 
+## Source
+
+Application source is maintained privately. This repository publishes the shared
+type + validation contract ([`packages/shared`](packages/shared)) and the Prisma
+data model ([`prisma/schema.prisma`](prisma/schema.prisma)) — both MIT-licensed —
+so the real stack is visible without exposing the event-sourcing and forecast
+engines.
 ## Security and deployment
 
 Read the [security policy](SECURITY.md) and [production requirements](docs/PRODUCTION_SECURITY.md) before deployment.
